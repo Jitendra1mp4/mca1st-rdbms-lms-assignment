@@ -448,7 +448,7 @@ AND CNAME <> 'ANIL'
 
 -- List all the cities where branches of Anil and Sunil are located
 
-SELECT BRANCH.CITY FROM 
+SELECT BRANCH.CITY FROM   
 DEPOSIT INNER JOIN BRANCH USING (BNAME)
 FULL JOIN BORROW USING(CNAME) 
 WHERE 
@@ -502,3 +502,103 @@ BRANCH INNER JOIN DEPOSIT USING(BNAME)
 INNER JOIN BORROW USING(CNAME) 
 WHERE 
 CITY = (SELECT CITY FROM DEPOSIT INNER JOIN BRANCH USING(BNAME) WHERE CNAME = 'ANIL')
+
+
+
+-- Assignment No. - 5
+-- 1. List total loan
+
+-- 2. List total deposit
+-- 3. List total loan taken from Karolbagh branch.
+-- 4. List total deposit of customer having account date later than 1 Jan 96.
+-- 5. List total deposit of customers living in city Nagpur
+-- 6. List maximum deposit of customer living in Mumbai
+-- 7. List total deposit of cutomers having branch city Delhi
+-- 8. List total deposit of customers living in city where Sunil is living.
+-- 9. Count total number of Branch cities
+-- 10. Count total number of Customer cities
+-- 11. Give branch name and branchwise deposit
+-- 12. Give city name and citywise deposit
+-- 13. Give citywise name and branchwise deposit
+-- 14. Give the branchwise deposit of customer after account date 1 Jan 96
+-- 15. Give branchwise loan of customer living in Nagpur
+-- 16. Count total number of Customers
+-- 17. Count total number of depositers branchwise
+-- 18. Give maximum loan from branch VRCE
+-- 19. Give living citywise loan of borrowers
+-- 20. Give the number of customers who are depositers as well as borrowers
+
+
+-- Assignment No. - 6
+-- Group by and Having
+--  List the branches having sum of deposit more than 50000
+--  List the branches having a sum of deposit more than 50000 and located in city Mumbai
+--  List the names of customers having deposit in the branches where the average deposit is more
+-- than 50000
+--  List the names of customers having maximum deposit
+--  List the names of customers having maximum deposit living in Nagpur
+--  List the names of branches having the highest number of depositer
+--  Count the number of depositors living in Nagpur
+--  Give names of customers in VRCE branch having more deposit than all customer from SB
+-- branch Andheri
+--  Give names of customers in VRCE branch having more deposit than any other customer in
+-- Andheri branch
+--  Give names of customers having highest deposit in the branch where sunil is having deposit
+--  Give names of customers having highest deposit in the city where branch of Sunil is located
+--  Give names of customers having more deposit than the average deposit in their respective
+-- branches.
+--  Give names of customers having maximum deposit among deposits of Nagpur for branch
+-- VRCE.
+--  Give name of branch where number of depositers is more than 5.
+--  Give name of city having more customers living in than Nagpur
+--  Give names of branches having the number of depositers more than the number of borrowers.
+--  Give the names of cities in which the maximum number of branches are located.
+--  Give the names of customers living in the city where the maximum number of depositers are
+-- located
+--  Give the name of borrowers having the same branch city and highest borrowers.
+--  Count the number of customers living in the city where branch is located
+
+-- Assignment No. - 7
+-- The Update statement
+-- 1. Give 10% interest to all depositers
+-- 2. Give 10% interest to all depositers having branch VRCE
+-- 3. Give 10% interest to all depositers living in Nagpur
+-- 4. Give 10% interest to all depositers living in Nagpur and having branch in city Mumbai
+-- 5. Add hundred rupees to the deposit of Anil and assign it to Sunil.
+-- 6. Change the deposit of VRCE branch to 1000 and change the branch as VRCE-Ambazari
+-- 7. Assign to the deposit of Anil the maximum deposit from VRCE branch
+-- 8. Change the living city of VRCE branch Borrowers to Nagpur.
+-- 9. Update deposit of Anil, give him maximum deposit from depositors in living city Nagpur
+-- 10. Deposit the sum of the deposits of Sunil and Vijay in the account of Anil.
+-- 11. Transfer Rs. 500 from the account of Anil to the account of Sunil
+-- 12. Transfer Rs. 500 from the account of Anil to the account of Sunil if both are having the same
+-- branch.
+-- 13. Transfer Rs. 10 from the account of Anil to the account of Sunil if both are living in Nagpur.
+-- 14. Transfer Rs. 10 from the account of Anil to the account of Sunil if they are living in the same
+-- city.
+-- 15. Transfer Rs. 10 from the account of Anil to the account of Sunil if they are having the same
+-- branches.
+-- 16. Add Rs. 1000 to the account of all those depositers who are having the highest deposit amount
+-- in their respective branches.
+-- 17. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit.
+-- 18. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit of
+-- their branch
+-- 19. Add Rs. 100 to the amount of all customers living in the city where their branch is located
+-- 20. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit of
+-- their branch.
+-- Assignment No. - 8
+-- The Delete Statement
+-- 1. Delete depositers of branches having the number of customer between 1 and 3
+-- 2. Delete branches having average deposit less than 5000
+-- 3. Delete the branches having maximum loan more than 5000
+-- 4. Delete branches of having deposit from Nagpur
+-- 5. Delete deposit of Anil and Sunil if both are having branch VIRAR
+-- 6. Delete deposit of Anil and Sunil if both are having living city Nagpur
+-- 7. Delete deposit of Anil and Sunil if both are having same living city
+-- 8. Delete deposit of Anil and Sunil if both are having less deposit than Vijay
+-- 9. Delete deposit of vijay
+-- 10. Delete customer from Bombay City
+-- 11. Delete depositer if the branch is VIRAR and depositer name is Ajay
+-- 12. Delete depositer having deposit less than 5000
+-- 13. Delete borrower having loan more than 1000 and branch Karolbagh
+-- 14. Delete the names of those depositers of VRCE branch who live in city Bombay
