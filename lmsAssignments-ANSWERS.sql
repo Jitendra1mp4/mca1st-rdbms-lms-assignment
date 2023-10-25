@@ -587,43 +587,85 @@ GROUP BY CITY
 
 
 -- 13. Give citywise name and branchwise deposit
+SELECT CUSTOMER.CITY , CUSTOMER.CNAME , DEPOSIT.BNAME , SUM(DEPOSIT.AMOUNT) TOTAL_AMOUNT
+FROM 
+CUSTOMER INNER JOIN DEPOSIT ON CUSTOMER.CNAME = DEPOSIT.CNAME 
+INNER JOIN BRANCH ON DEPOSIT.BNAME = BRANCH.BNAME 
+GROUP BY CUSTOMER.CITY , DEPOSIT.BNAME , CUSTOMER.CNAME ;
+
+
 -- 14. Give the branchwise deposit of customer after account date 1 Jan 96
+SELECT C.CITY , C.CNAME , D.BNAME , SUM(D.AMOUNT) TOTAL_AMOUNT
+FROM 
+CUSTOMER C INNER JOIN DEPOSIT D ON C.CNAME = D.CNAME 
+INNER JOIN BRANCH B ON D.BNAME = B.BNAME 
+GROUP BY C.CITY , D.BNAME , C.CNAME ;
+
+
+
 -- 15. Give branchwise loan of customer living in Nagpur
+SELECT BNAME , SUM(AMOUNT)
+FROM 
+BORROW INNER JOIN BRANCH USING(BNAME)
+WHERE CITY = 'NAGPUR'
+GROUP BY BNAME ;
+
+
 -- 16. Count total number of Customers
--- 17. Count total number of depositers branchwise
+SELECT COUNT(CNAME) FROM CUSTOMER ;
+
+-- 17.  Count total number of depositors branch wise
+
+SELECT BNAME, COUNT(CNAME) NUMBER_OF_DEPOSITOR FROM
+DEPOSIT
+GROUP BY BNAME 
+
+
 -- 18. Give maximum loan from branch VRCE
+SELECT BNAME, MAX(AMOUNT) NUMBER_OF_DEPOSITOR FROM BORROW 
+WHERE BNAME = 'VRCE' GROUP BY BNAME
+
+
+
 -- 19. Give living citywise loan of borrowers
+SELECT CITY , SUM(AMOUNT) TOTAL_LOAN FROM 
+CUSTOMER INNER JOIN BORROW USING (CNAME)
+GROUP BY CITY 
+
+
 -- 20. Give the number of customers who are depositers as well as borrowers
+SELECT COUNT(CNAME) FROM DEPOSIT INNER JOIN BORROW USING(CNAME) 
+
 
 
 -- Assignment No. - 6
 -- Group by and Having
---  List the branches having sum of deposit more than 50000
---  List the branches having a sum of deposit more than 50000 and located in city Mumbai
---  List the names of customers having deposit in the branches where the average deposit is more
+--  List the branches having sum of deposit more than 50000
+--  List the branches having a sum of deposit more than 50000 and located in city Mumbai
+--  List the names of customers having deposit in the branches where the average deposit is more
 -- than 50000
---  List the names of customers having maximum deposit
---  List the names of customers having maximum deposit living in Nagpur
---  List the names of branches having the highest number of depositer
---  Count the number of depositors living in Nagpur
---  Give names of customers in VRCE branch having more deposit than all customer from SB
+--  List the names of customers having maximum deposit
+--  List the names of customers having maximum deposit living in Nagpur
+--  List the names of branches having the highest number of depositer
+--  Count the number of depositors living in Nagpur
+--  Give names of customers in VRCE branch having more deposit than all customer from SB
 -- branch Andheri
---  Give names of customers in VRCE branch having more deposit than any other customer in
+--  Give names of customers in VRCE branch having more deposit than any other customer in
 -- Andheri branch
---  Give names of customers having highest deposit in the branch where sunil is having deposit
---  Give names of customers having highest deposit in the city where branch of Sunil is located
---  Give names of customers having more deposit than the average deposit in their respective
+--  Give names of customers having highest deposit in the branch where sunil is having deposit
+--  Give names of customers having highest deposit in the city where branch of Sunil is located
+--  Give names of customers having more deposit than the average deposit in their respective
 -- branches.
---  Give names of customers having maximum deposit among deposits of Nagpur for branch
+--  Give names of customers having maximum deposit among deposits of Nagpur for branch
 -- VRCE.
---  Give name of branch where number of depositers is more than 5.
---  Give name of city having more customers living in than Nagpur
---  Give names of branches having the number of depositers more than the number of borrowers.
---  Give the names of cities in which the maximum number of branches are located.
---  Give the names of customers living in the city where the maximum number of depositers are
+--  Give name of branch where number of depositers is more than 5.
+--  Give name of city having more customers living in than Nagpur
+--  Give names of branches having the number of depositers more than the number of borrowers.
+--  Give the names of cities in which the maximum number of branches are located.
+--  Give the names of customers living in the city where the maximum number of depositers are
 -- located
---  Give the name of borrowers having the same branch city and highest borrowers.
---  Count the number of customers living in the city where branch is located
+--  Give the name of borrowers having the same branch city and highest borrowers.
+--  Count the number of customers living in the city where branch is located
 
 -- Assignment No. - 7
 -- The Update statement
