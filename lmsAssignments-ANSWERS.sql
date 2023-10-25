@@ -504,21 +504,88 @@ WHERE
 CITY = (SELECT CITY FROM DEPOSIT INNER JOIN BRANCH USING(BNAME) WHERE CNAME = 'ANIL')
 
 
-
+**********************************
 -- Assignment No. - 5
+-- asur 5
+******************************
+
 -- 1. List total loan
+select sum(amount) as total_loan from borrow ;
+
 
 -- 2. List total deposit
+select sum(amount) as total_deposit from deposit;
+
 -- 3. List total loan taken from Karolbagh branch.
+SELECT SUM(AMOUNT) AS TOTAL_LOAN 
+FROM 
+BORROW INNER JOIN BRANCH USING (BNAME)
+WHERE BNAME = 'KAROLBAGH'
+
+
+
 -- 4. List total deposit of customer having account date later than 1 Jan 96.
+SELECT CNAME ,SUM(AMOUNT) FROM  
+DEPOSIT WHERE ADATE > DATE '1996-01-01' 
+GROUP BY (CNAME,ADATE)
+
+
 -- 5. List total deposit of customers living in city Nagpur
+SELECT 
+CNAME , CITY , 
+SUM(AMOUNT) AS TOTAL_DEPOSIT 
+FROM 
+CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
+WHERE CITY = 'NAGPUR'
+GROUP BY CNAME, CITY ;
+
 -- 6. List maximum deposit of customer living in Mumbai
+
+SELECT MAX(AMOUNT) AS MAX_DEPOSIT_AMOUNT FROM 
+CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
+WHERE CITY = 'MUMBAI'
+
 -- 7. List total deposit of cutomers having branch city Delhi
+
+SELECT BRANCH.CITY AS BRANCH_CITY , SUM(AMOUNT)
+FROM
+CUSTOMER INNER JOIN DEPOSIT USING(CNAME) 
+INNER JOIN BRANCH USING(BNAME) 
+WHERE BRANCH.CITY = 'DELHI'
+GROUP BY BRANCH.CITY
+
+
 -- 8. List total deposit of customers living in city where Sunil is living.
+SELECT CITY , SUM(AMOUNT) FROM
+CUSTOMER INNER JOIN DEPOSIT USING (CNAME)
+WHERE CITY =(SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL')
+GROUP BY CITY ;
+
+
+
 -- 9. Count total number of Branch cities
+SELECT COUNT(DISTINCT CITY) NUMBER_OF_CITIES FROM 
+BRANCH
+
+
 -- 10. Count total number of Customer cities
+
+SELECT COUNT(DISTINCT CITY) NUMBER_OF_CITIES FROM 
+CUSTOMER
+
+
 -- 11. Give branch name and branchwise deposit
+SELECT BNAME , SUM (AMOUNT) FROM DEPOSIT 
+GROUP BY BNAME
+
+
 -- 12. Give city name and citywise deposit
+SELECT CITY BRANCH_CITY, SUM(AMOUNT) TOTAL_DEPOSIT 
+FROM
+DEPOSIT INNER JOIN BRANCH USING(BNAME)
+GROUP BY CITY 
+
+
 -- 13. Give citywise name and branchwise deposit
 -- 14. Give the branchwise deposit of customer after account date 1 Jan 96
 -- 15. Give branchwise loan of customer living in Nagpur
