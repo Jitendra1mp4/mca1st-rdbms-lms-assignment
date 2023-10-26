@@ -641,21 +641,118 @@ SELECT COUNT(CNAME) FROM DEPOSIT INNER JOIN BORROW USING(CNAME)
 -- Assignment No. - 6
 -- Group by and Having
 --  List the branches having sum of deposit more than 50000
+SELECT BNAME, SUM(AMOUNT) TOTAL_AMOUNT
+FROM DEPOSIT GROUP BY BNAME HAVING SUM(AMOUNT) > 50000
+
+
+
 --  List the branches having a sum of deposit more than 50000 and located in city Mumbai
+
+SELECT BNAME, SUM(AMOUNT) TOTAL_AMOUNT
+FROM DEPOSIT INNER JOIN CUSTOMER USING(CNAME)
+WHERE CITY = 'MUMBAI'
+GROUP BY BNAME HAVING SUM(AMOUNT) > 50000
+
+
+
 --  List the names of customers having deposit in the branches where the average deposit is more
 -- than 50000
+SELECT CNAME FROM CUSTOMER INNER JOIN DEPOSIT USING (CNAME)
+INNER JOIN(
+SELECT BNAME , AVG(AMOUNT) AS AVG_AMOUNT FROM 
+DEPOSIT GROUP BY BNAME HAVING AVG(AMOUNT) > 50000
+) AVG_DEPOSITS ON DEPOSIT.BNAME = AVG_DEPOSITS.BNAME ;
+
+
+
 --  List the names of customers having maximum deposit
+SELECT CNAME , SUM(AMOUNT) FROM  DEPOSIT GROUP BY CNAME 
+HAVING SUM(AMOUNT) =(
+    SELECT MAX(SUM_AMOUNT) FROM (SELECT SUM(AMOUNT) AS SUM_AMOUNT FROM DEPOSIT GROUP BY CNAME )
+)
+
+
+-- or you can also use query below 
+SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
+SELECT MAX(AMOUNT) FROM DEPOSIT
+)
+
+
 --  List the names of customers having maximum deposit living in Nagpur
+
+SELECT CNAME FROM DEPOSIT INNER JOIN CUSTOMER USING (CNAME) 
+WHERE  CITY = 'NAGPUR' AND AMOUNT = (
+SELECT MAX(AMOUNT) FROM DEPOSIT
+)
+
+
 --  List the names of branches having the highest number of depositer
+
+SELECT BNAME FROM DEPOSIT 
+GROUP BY BNAME HAVING COUNT(AMOUNT) = (
+SELECT MAX(NO_OF_DEPOSITS) AS MAX_NUM_OF_DEPOSIT 
+FROM (
+    SELECT COUNT(AMOUNT) AS NO_OF_DEPOSITS FROM DEPOSIT GROUP BY AMOUNT
+    )
+)
+
+
+
 --  Count the number of depositors living in Nagpur
+SELECT COUNT(CNAME) AS NUMBER_OF_DEPOSITOR FROM 
+CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
+WHERE CITY = 'NAGPUR'
+
+
 --  Give names of customers in VRCE branch having more deposit than all customer from SB
 -- branch Andheri
+SELECT CNAME FROM DEPOSIT 
+WHERE BNAME = 'VRCE' 
+AND AMOUNT > (
+SELECT SUM(AMOUNT) FROM DEPOSIT WHERE BNAME='ANDHERI' 
+GROUP BY BNAME
+)
+
+
 --  Give names of customers in VRCE branch having more deposit than any other customer in
 -- Andheri branch
+SELECT CNAME FROM DEPOSIT 
+WHERE BNAME = 'VRCE' 
+AND AMOUNT > (
+SELECT MAX(AMOUNT) FROM DEPOSIT WHERE BNAME='ANDHERI' 
+)
+
+
+
 --  Give names of customers having highest deposit in the branch where sunil is having deposit
+
+SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
+   SELECT MAX(AMOUNT) FROM DEPOSIT WHERE BNAME=(
+      SELECT BNAME FROM DEPOSIT WHERE CNAME = 'SUNIL'
+    )
+) AND BNAME = ( SELECT BNAME FROM DEPOSIT WHERE CNAME = 'SUNIL')
+  AND CNAME <> 'SUNIL'
+
+  
 --  Give names of customers having highest deposit in the city where branch of Sunil is located
+
+SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
+   SELECT MAX(AMOUNT) FROM DEPOSIT INNER JOIN BRANCH USING(BNAME) WHERE CITY=(
+      SELECT CITY FROM DEPOSIT INNER JOIN BRANCH USING(BNAME) WHERE CNAME = 'SUNIL'
+    )
+)
+
+
+
 --  Give names of customers having more deposit than the average deposit in their respective
 -- branches.
+SELECT CNAME,BNAME,  AMOUNT , AVG_DEPOSIT FROM DEPOSIT INNER JOIN (
+    SELECT BNAME , AVG(AMOUNT) AS AVG_DEPOSIT FROM DEPOSIT 
+    GROUP BY BNAME 
+) AVG_DEPOSIT USING(BNAME) 
+WHERE AMOUNT > AVG_DEPOSIT 
+
+
 --  Give names of customers having maximum deposit among deposits of Nagpur for branch
 -- VRCE.
 --  Give name of branch where number of depositers is more than 5.
