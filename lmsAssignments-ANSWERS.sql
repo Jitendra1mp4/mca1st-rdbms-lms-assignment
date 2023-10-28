@@ -35,7 +35,7 @@ INTO DEPOSIT VALUES ('101','SUNIL','AJNI','5000', '01-04-1996')
 INTO DEPOSIT VALUES ('102','MEHUL','KAROLBAGH','3500', '11-17-1995')
 INTO DEPOSIT VALUES ('103','MADHURI','MG ROAD','1200', '12-17-1995')
 INTO DEPOSIT VALUES ('104','PRAMOD','ANDHERI','3000', '03-31-1996')
-INTO DEPOSIT VALUES ('105','SANDIP','VIHAR','2000', '09-05-1995')
+INTO DEPOSIT VALUES ('105','SANDIP','VIRAR','2000', '09-05-1995')
 INTO DEPOSIT VALUES ('106','SHIVANI','NEHRU PALACE','1000', '06-02-1995')
 INTO DEPOSIT VALUES ('107','KRANTI','POWAI','5000', '08-10-1995')
 INTO DEPOSIT VALUES ('108','SHALINI','VRCE','7000', '10-28-1996')
@@ -52,7 +52,7 @@ INTO BRANCH VALUES ('AJNI','NAGPUR')
 INTO BRANCH VALUES ('KAROLBAGH','DELHI')
 INTO BRANCH VALUES ('MG ROAD','BANGLORE')
 INTO BRANCH VALUES ('ANDHERI','MUMBAI')
-INTO BRANCH VALUES ('VIHAR','MUMBAI')
+INTO BRANCH VALUES ('VIRAR','MUMBAI')
 INTO BRANCH VALUES ('NEHRU PALACE','DELHI')
 INTO BRANCH VALUES ('POWAI','MUMBAI')
 INTO BRANCH VALUES ('GE ROAD','BANGLORE')
@@ -753,16 +753,71 @@ SELECT CNAME,BNAME,  AMOUNT , AVG_DEPOSIT FROM DEPOSIT INNER JOIN (
 WHERE AMOUNT > AVG_DEPOSIT 
 
 
---  Give names of customers having maximum deposit among deposits of Nagpur for branch
--- VRCE.
+--  Give names of customers having maximum deposit among deposits of Nagpur for branch VRCE.
+***** SIR KO PUCHNA HAI
+
 --  Give name of branch where number of depositers is more than 5.
+SELECT BNAME , COUNT(CNAME) FROM DEPOSIT 
+GROUP BY BNAME HAVING COUNT(CNAME) > 5 ;
+
+
 --  Give name of city having more customers living in than Nagpur
+SELECT CITY , COUNT(CITY) FROM CUSTOMER 
+GROUP BY CITY HAVING COUNT(CITY) > (
+SELECT COUNT(CITY) FROM CUSTOMER 
+WHERE CITY = 'NAGPUR'
+GROUP BY CITY 
+)
+
+
 --  Give names of branches having the number of depositers more than the number of borrowers.
+SELECT DEPOSIT.BNAME, COUNT(DEPOSIT.BNAME) FROM DEPOSIT 
+FULL JOIN BORROW USING (CNAME) 
+GROUP BY DEPOSIT.BNAME 
+HAVING COUNT(DEPOSIT.BNAME) > COUNT(BORROW.BNAME);
+
+
 --  Give the names of cities in which the maximum number of branches are located.
---  Give the names of customers living in the city where the maximum number of depositers are
--- located
+
+SELECT CITY FROM BRANCH INNER JOIN 
+(SELECT BNAME FROM DEPOSIT 
+ GROUP BY BNAME 
+  HAVING COUNT(BNAME) = (
+      SELECT MAX(COUNT(BNAME)) AS MAX_BNAME FROM DEPOSIT GROUP BY BNAME 
+  )
+) MAX_COUNT_BNAME USING(BNAME)
+
+
+
+--  Give the names of customers living in the city where the maximum number of depositers are located
+SELECT CNAME FROM CUSTOMER WHERE CITY =(
+SELECT CITY FROM CUSTOMER 
+  GROUP BY CITY HAVING COUNT(CITY) =(
+    SELECT MAX(COUNT(CITY)) FROM CUSTOMER
+    INNER JOIN DEPOSIT USING(CNAME) GROUP BY CITY
+  )
+)
+
+
 --  Give the name of borrowers having the same branch city and highest borrowers.
+
+SELECT CNAME , CUSTOMER.CITY FROM 
+  BRANCH INNER JOIN (
+     SELECT CNAME, BNAME FROM BORROW WHERE AMOUNT =(
+        SELECT MAX(AMOUNT) FROM BORROW )
+  )
+ MAX_BORROW_BNAME USING(BNAME) 
+INNER JOIN CUSTOMER USING(CNAME) ;
+
+
+
 --  Count the number of customers living in the city where branch is located
+SELECT COUNT(CNAME) CUSTOMER_IN_BRANCH_CITIES FROM CUSTOMER 
+WHERE CITY IN(
+   SELECT DISTINCT CITY FROM BRANCH
+)
+
+
 
 -- Assignment No. - 7
 -- The Update statement
