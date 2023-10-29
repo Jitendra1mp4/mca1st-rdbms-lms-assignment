@@ -1,3 +1,218 @@
+-----------------------------------------------------------------------------
+CREATE TABLE SALESMAN
+(
+    salesman_id INT,
+    NAME VARCHAR(255),
+    CITY VARCHAR(255),
+    COMMISSION NUMBER(8,2)
+)
+
+
+INSERT ALL 
+ INTO SALESMAN VALUES (5001 ,'James Hoog','New York', 0.15 )
+ INTO SALESMAN VALUES (5002 ,'Nail Knite','Paris', 0.13 )
+ INTO SALESMAN VALUES (5005 ,'Pit Alex','London', 0.11 )
+ INTO SALESMAN VALUES (5006 ,'Mc Lyon','Paris', 0.14 )
+ INTO SALESMAN VALUES (5007 ,'Paul Adam','Rome', 0.13 )
+ INTO SALESMAN VALUES (5003 ,'Lauson Hen','San Jose', 0.12 )
+ SELECT * FROM DUAL ;
+
+-----------------------------------------------------------------------------
+
+
+CREATE TABLE ORDERS
+(
+  ord_no INT PRIMARY KEY,
+  purch_amt NUMERIC(8,2),
+  ord_date DATE,
+  customer_id INT,
+  salesman_id INT
+);
+
+
+
+INSERT ALL 
+INTO ORDERS VALUES (70001,   150.5,   '10-05-2012' ,   3005,   5002) 
+INTO ORDERS VALUES (70009,   270.65,   '09-10-2012' ,   3001,   5005) 
+INTO ORDERS VALUES (70002,   65.26,   '10-05-2012' ,   3002,   5001) 
+INTO ORDERS VALUES (70004,   110.5 ,  '08-17-2012' ,   3009,   5003) 
+INTO ORDERS VALUES (70007,   948.5,   '09-10-2012' ,   3005,   5002) 
+INTO ORDERS VALUES (70005,   2400.6 ,  '07-27-2012' ,   3007,  5001) 
+INTO ORDERS VALUES (70008,   5760,   '09-10-2012' ,   3002 ,  5001 )
+INTO ORDERS VALUES (70010 ,  1983.43,   '10-10-2012' ,   3004,   5006) 
+INTO ORDERS VALUES (70003 ,  2480.4,   '10-10-2012' ,   3009,   5003) 
+INTO ORDERS VALUES (70012,   250.45 ,  '06-27-2012' ,   3008,   5002) 
+INTO ORDERS VALUES (70011,   75.29,   '08-17-2012' ,   3003,   5007) 
+
+SELECT * FROM DUAL;
+
+-----------------------------------------------------------------------------
+
+
+CREATE TABLE CUSTOMERR
+(
+customer_id INT PRIMARY KEY,
+cust_name VARCHAR(255),
+CITY VARCHAR(255),
+GRADE INT ,
+salesman_id INT
+) ;
+
+INSERT ALL
+  INTO CUSTOMERR VALUES (3001, 'Jitendra Kumar', 'Raipur', 300, 5005)
+  INTO CUSTOMERR VALUES (3002, 'Nick Rimando', 'New York', 100, 5001)
+  INTO CUSTOMERR VALUES (3007, 'Brad Davis', 'New York', 200, 5001)
+  INTO CUSTOMERR VALUES (3005, 'Graham Zusi', 'California', 200, 5002)
+  INTO CUSTOMERR VALUES (3008, 'Julian Green', 'London', 300, 5002)
+  INTO CUSTOMERR VALUES (3004, 'Fabian Johnson', 'Paris', 300, 5006)
+  INTO CUSTOMERR VALUES (3009, 'Geoff Cameron', 'Berlin', 100, 5003)
+  INTO CUSTOMERR VALUES (3003, 'Jozy Altidor', 'Moscow', 200, 5007)
+  INTO CUSTOMERR VALUES (3006, 'Brad Guzan', 'London', 0, 5005)
+SELECT * FROM DUAL;
+
+-----------------------------------------------------------------------------
+
+CREATE TABLE nobel_win (
+  YEAR INT,
+  SUBJECT VARCHAR(50),
+  WINNER VARCHAR(50),
+  COUNTRY VARCHAR(50),
+  CATEGORY VARCHAR(50)
+);
+
+
+INSERT ALL 
+  INTO nobel_win VALUES (1970, 'Physics', 'Hannes Alfven', 'Sweden', 'Scientist')
+  INTO nobel_win VALUES (1970, 'Physics', 'Louis Neel', 'France', 'Scientist')
+  INTO nobel_win VALUES (1970, 'Chemistry', 'Luis Federico Leloir', 'France', 'Scientist')
+  INTO nobel_win VALUES (1970, 'Physiology', 'Ulf von Euler', 'Sweden', 'Scientist')
+  INTO nobel_win VALUES (1970, 'Literature', 'Aleksandr Solzhenitsyn', 'Russia', 'Linguist')
+  INTO nobel_win VALUES (1970, 'Economics', 'Paul Samuelson', 'USA', 'Economist')
+  INTO nobel_win VALUES (1970, 'Physiology', 'Julius Axelrod', 'USA', 'Scientist')
+  INTO nobel_win VALUES (1971, 'Physics', 'Dennis Gabor', 'Hungary', 'Scientist')
+  INTO nobel_win VALUES (1971, 'Chemistry', 'Gerhard Herzberg', 'Germany', 'Scientist')
+  INTO nobel_win VALUES (1971, 'Peace', 'Willy Brandt', 'Germany', 'Chancellor')
+  INTO nobel_win VALUES (1971, 'Literature', 'Pablo Neruda', 'Chile', 'Linguist')
+  INTO nobel_win VALUES (1971, 'Economics', 'Simon Kuznets', 'Russia', 'Economist')
+  INTO nobel_win VALUES (1978, 'Peace', 'Anwar al-Sadat', 'Egypt', 'President')
+  INTO nobel_win VALUES (1978, 'Peace', 'Menachem Begin', 'Israel', 'Prime Minister')
+  INTO nobel_win VALUES (1987, 'Chemistry', 'Donald J. Cram', 'USA', 'Scientist')
+  INTO nobel_win VALUES (1987, 'Chemistry', 'Jean-Marie Lehn', 'France', 'Scientist')
+  INTO nobel_win VALUES (1987, 'Physiology', 'Susumu Tonegawa', 'Japan', 'Scientist')
+  INTO nobel_win VALUES (1994, 'Economics', 'Reinhard Selten', 'Germany', 'Economist')
+  INTO nobel_win VALUES (1994, 'Peace', 'Yitzhak Rabin', 'Israel', 'Prime Minister')
+  INTO nobel_win VALUES (1987, 'Physics', 'Johannes Georg Bednorz', 'Germany', 'Scientist')
+  INTO nobel_win VALUES (1987, 'Literature', 'Joseph Brodsky', 'Russia', 'Linguist')
+  INTO nobel_win VALUES (1987, 'Economics', 'Robert Solow', 'USA', 'Economist')
+  INTO nobel_win VALUES (1994, 'Literature', 'Kenzaburo Oe', 'Japan', 'Linguist')
+SELECT * FROM DUAL;
+
+-----------------------------------------------------------------------------
+
+CREATE TABLE item_mast (
+  PRO_ID INT,
+  PRO_NAME VARCHAR(50),
+  PRO_PRICE NUMERIC(8,2),
+  PRO_COM INT
+);
+
+
+INSERT ALL 
+ INTO item_mast VALUES  (101, 'Mother Board', 3200.00, 15)
+ INTO item_mast VALUES  (102, 'Key Board', 450.00, 16)
+ INTO item_mast VALUES  (103, 'ZIP drive', 250.00, 14)
+ INTO item_mast VALUES  (104, 'Speaker', 550.00, 16)
+ INTO item_mast VALUES  (105, 'Monitor', 5000.00, 11)
+ INTO item_mast VALUES  (106, 'DVD drive', 900.00, 12)
+ INTO item_mast VALUES  (107, 'CD drive', 800.00, 12)
+ INTO item_mast VALUES  (108, 'Printer', 2600.00, 13)
+ INTO item_mast VALUES  (109, 'Refill cartridge', 350.00, 13)
+  INTO item_mast VALUES (110, 'Mouse', 250.00, 12)
+SELECT * FROM DUAL;
+-----------------------------------------------------------------------------
+
+
+CREATE TABLE emp_details (
+  EMP_IDNO INT,
+  EMP_FNAME VARCHAR(50),
+  EMP_LNAME VARCHAR(50),
+  EMP_DEPT INT
+);
+
+INSERT ALL 
+ INTO EMP_DETAILS  VALUES (127323, 'Michale', 'Robbin', 57)
+ INTO EMP_DETAILS  VALUES (526689, 'Carlos', 'Snares', 63)
+ INTO EMP_DETAILS  VALUES (843795, 'Enric', 'Dosio', 57)
+ INTO EMP_DETAILS  VALUES (328717, 'Jhon', 'Snares', 63)
+ INTO EMP_DETAILS  VALUES (444527, 'Joseph', 'Dosni', 47)
+ INTO EMP_DETAILS  VALUES (659831, 'Zanifer', 'Emily', 47)
+ INTO EMP_DETAILS  VALUES (847674, 'Kuleswar', 'Sitaraman', 57)
+ INTO EMP_DETAILS  VALUES (748681, 'Henrey', 'Gabriel', 47)
+ INTO EMP_DETAILS  VALUES (555935, 'Alex', 'Manuel', 57)
+ INTO EMP_DETAILS  VALUES (539569, 'George', 'Mardy', 27)
+ INTO EMP_DETAILS  VALUES (733843, 'Mario', 'Saule', 63)
+ INTO EMP_DETAILS  VALUES (631548, 'Alan', 'Snappy', 27)
+ INTO EMP_DETAILS  VALUES (839139, 'Maria', 'Foster', 57)
+SELECT * FROM DUAL;
+
+
+-----------------------------------------------------------------------------
+
+CREATE TABLE testtable (
+  col1 VARCHAR(100)
+);
+
+
+INSERT ALL 
+ INTO testtable VALUES  ('A001/DJ-402\44_/100/2015')
+ INTO testtable VALUES  ('A001_\DJ-402\44_/100/2015')
+  INTO testtable VALUES ('A001_DJ-402-2014-2015')
+  INTO testtable VALUES ('A002_DJ-401-2014-2015')
+ INTO testtable VALUES  ('A001/DJ_401')
+ INTO testtable VALUES  ('A001/DJ_402\44')
+ INTO testtable VALUES  ('A001/DJ_402\44\2015')
+  INTO testtable VALUES ('A001/DJ-402%45\2015/200')
+ INTO testtable VALUES  ('A001/DJ_402\45\2015%100')
+  INTO testtable VALUES ('A001/DJ_402%45\2015/300')
+ INTO testtable VALUES  ('A001/DJ-402\44')
+SELECT * FROM DUAL;
+
+-----------------------------------------------------------------------------
+
+CREATE TABLE emp_department (
+  DPT_CODE INT,
+  DPT_NAME VARCHAR(50),
+  DPT_ALLOTMENT INT
+);
+
+
+INSERT ALL 
+ INTO emp_department  VALUES  (57, 'IT', 65000)
+ INTO emp_department  VALUES  (63, 'Finance', 15000)
+ INTO emp_department  VALUES  (47, 'HR', 240000)
+ INTO emp_department  VALUES  (27, 'RD', 55000)
+  INTO emp_department  VALUES (89, 'QC', NULL)
+  SELECT * FROM DUAL;
+-----------------------------------------------------------------------------
+
+
+CREATE TABLE company_mast (
+  COM_ID INT,
+  COM_NAME VARCHAR(50)
+);
+
+
+INSERT ALL
+  INTO company_mast  VALUES(11, 'Samsung')
+ INTO company_mast  VALUES (12, 'iBall')
+  INTO company_mast  VALUES(13, 'Epsion')
+  INTO company_mast  VALUES(14, 'Zebronics')
+ INTO company_mast  VALUES (15, 'Asus')
+ INTO company_mast  VALUES (16, 'Frontech')
+
+SELECT * FROM DUAL;
+
+
 ******************************************
 
 1. Write a SQL statement that displays all the information about all salespeople.
