@@ -210,9 +210,8 @@ CITY = (SELECT CITY FROM BRANCH WHERE BRANCH.BNAME
 
 -- Give loan number and loan amount of borrowers having the same branch as that of Sunil
 SELECT LOANNO , CNAME,AMOUNT FROM BORROW 
-WHERE BNAME= (SELECT BNAME FROM BORROW WHERE CNAME = 'SUNIL');
-
-
+WHERE BNAME= (SELECT BNAME FROM BORROW WHERE CNAME = 'SUNIL')
+AND CNAME <> 'SUNIL'
 
 -- Give loan number, Loan Amount, Account number and deposit amount of customer having in city Nagpur
 
