@@ -98,7 +98,7 @@ ASUR PART 2
 Give account number and deposit amount of customer having account opened between dates 1-
 12-96 and 01-06-96
 
-SELECT CNAME , ACTNO FROM DEPOSIT WHERE ADATE > DATE '1996-01-12' AND ADATE < DATE '1996-01-06'
+SELECT CNAME , ACTNO FROM DEPOSIT WHERE ADATE between date '1996-01-12' AND date '1996-01-06'
 
 last qn
 
