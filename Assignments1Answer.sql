@@ -36,7 +36,7 @@ INTO DEPOSIT VALUES ('102','MEHUL','KAROLBAGH','3500', '11-17-1995')
 INTO DEPOSIT VALUES ('103','MADHURI','MG ROAD','1200', '12-17-1995')
 INTO DEPOSIT VALUES ('104','PRAMOD','ANDHERI','3000', '03-31-1996')
 INTO DEPOSIT VALUES ('105','SANDIP','VIRAR','2000', '09-05-1995')
-INTO DEPOSIT VALUES ('106','SHIVANI','NEHRU PALACE','1000', '06-02-1995')
+INTO DEPOSIT VALUES ('106','SHIVANI','NEHRU PALACE','1000', '06-02-1995')=
 INTO DEPOSIT VALUES ('107','KRANTI','POWAI','5000', '08-10-1995')
 INTO DEPOSIT VALUES ('108','SHALINI','VRCE','7000', '10-28-1996')
 INTO DEPOSIT VALUES ('109','SANJANA','ANDHERI','4000', '04-04-1996')
@@ -83,7 +83,6 @@ INTO CUSTOMER VALUES ('SANDIP', 'NAGPUR')
 INTO CUSTOMER VALUES ('SHIVANI', 'SURAT')
 INTO CUSTOMER VALUES ('KRANTI', 'MUMBAI')
 INTO CUSTOMER VALUES ('SHALINI', 'MUMBAI')
-INTO CUSTOMER VALUES ('SANJANA', 'MUMBAI')
 INTO CUSTOMER VALUES ('YOGEN', 'BILASPUR')
 SELECT * FROM DUAL;
 
@@ -635,9 +634,11 @@ GROUP BY CITY
 SELECT COUNT(CNAME) FROM DEPOSIT INNER JOIN BORROW USING(CNAME) 
 
 
-
+*******************************************
 -- Assignment No. - 6
 -- Group by and Having
+********************************************
+
 --  List the branches having sum of deposit more than 50000
 SELECT BNAME, SUM(AMOUNT) TOTAL_AMOUNT
 FROM DEPOSIT GROUP BY BNAME HAVING SUM(AMOUNT) > 50000
@@ -820,6 +821,12 @@ WHERE CITY IN(
 -- Assignment No. - 7
 -- The Update statement
 -- 1. Give 10% interest to all depositers
+  
+  
+UPDATE DEPOSIT
+SET AMOUNT = AMOUNT * 1.10;
+
+
 -- 2. Give 10% interest to all depositers having branch VRCE
 -- 3. Give 10% interest to all depositers living in Nagpur
 -- 4. Give 10% interest to all depositers living in Nagpur and having branch in city Mumbai
@@ -861,3 +868,320 @@ WHERE CITY IN(
 -- 12. Delete depositer having deposit less than 5000
 -- 13. Delete borrower having loan more than 1000 and branch Karolbagh
 -- 14. Delete the names of those depositers of VRCE branch who live in city Bombay
+
+
+
+
+assignOne
+7th sub-assignment 
+
+1. update Deposit  set amount=amount*1.10;
+
+
+
+2. update Deposit  set amount=amount*1.10 where bname='VRCE';
+
+
+3. update deposit set amount=amount*1.10 where cname IN (select cname from customer where city = 'NAGPUR');
+
+
+4. UPDATE DEPOSIT  SET AMOUNT=AMOUNT*1.10 WHERE CNAME In (select cname from customer where city = 'NAGPUR') AND BNAME IN (select bname from branch where city = 'MUMBAI');
+
+5.update deposit set amount=amount+100 where cname = 'ANIL' OR cname = 'SUNIL';
+
+6.update deposit set amount=1000, bname='VRCE-Ambazari' where bname = 'VRCE';
+
+7.update deposit set amount = (select max(amount) from deposit where bname = 'VRCE') where cname = 'ANIL'; 
+
+8. update customer set city = 'NAGPUR' where cname in (select cname from borrow where bname = 'VRCE');
+
+
+9
+UPDATE DEPOSIT
+SET AMOUNT = (
+  SELECT MAX(AMOUNT)
+  FROM DEPOSIT D
+  JOIN CUSTOMER C ON D.CNAME = C.CNAME
+  WHERE C.CITY = 'NAGPUR'
+)
+WHERE CNAME = 'ANIL';
+
+10.
+
+
+
+
+UPDATE DEPOSIT
+SET AMOUNT = AMOUNT + (
+  SELECT SUM(AMOUNT)
+  FROM DEPOSIT
+  WHERE CNAME IN ('Sunil', 'Vijay')
+)
+WHERE CNAME = 'Anil';
+
+
+
+
+11.
+UPDATE DEPOSIT
+SET AMOUNT = AMOUNT - 500
+WHERE CNAME = 'Anil';
+
+UPDATE DEPOSIT
+SET AMOUNT = AMOUNT + 500
+WHERE CNAME = 'Sunil';
+
+
+
+12.
+
+
+
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT - 500
+WHERE A.CNAME = 'Anil'
+  AND EXISTS (
+    SELECT 1
+    FROM DEPOSIT B
+    WHERE B.CNAME = 'Sunil'
+      AND B.BNAME = A.BNAME
+);
+
+
+13.
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT - 10
+WHERE A.CNAME = 'Anil'
+  AND EXISTS (
+    SELECT 1
+    FROM CUSTOMER C
+    WHERE C.CNAME = 'Sunil'
+      AND C.CITY = 'Nagpur'
+);
+
+
+
+
+14.
+
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT - 10
+WHERE A.CNAME = 'Anil'
+  AND EXISTS (
+    SELECT 1
+    FROM CUSTOMER C
+    WHERE C.CNAME = 'Sunil'
+      AND C.CITY = A.CITY
+);
+
+
+15.
+
+
+
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT - 10
+WHERE A.CNAME = 'Anil'
+  AND EXISTS (
+    SELECT 1
+    FROM DEPOSIT B
+    WHERE B.CNAME = 'Sunil'
+      AND B.BNAME = A.BNAME
+);
+
+
+16.
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT + 1000
+WHERE A.AMOUNT = (
+  SELECT MAX(B.AMOUNT)
+  FROM DEPOSIT B
+  WHERE B.BNAME = A.BNAME
+);
+
+
+
+17.
+
+
+UPDATE DEPOSIT
+SET AMOUNT = AMOUNT + 100
+WHERE AMOUNT > (
+  SELECT AVG(AMOUNT)
+  FROM DEPOSIT
+);
+
+
+18.
+
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT + 100
+WHERE A.AMOUNT > (
+  SELECT AVG(B.AMOUNT)
+  FROM DEPOSIT B
+  WHERE B.BNAME = A.BNAME
+);
+
+
+19.
+
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT + 100
+WHERE A.CITY = (
+  SELECT B.CITY
+  FROM BRANCH B
+  WHERE B.BNAME = A.BNAME
+);
+
+
+
+20.
+UPDATE DEPOSIT A
+SET A.AMOUNT = A.AMOUNT + 100
+WHERE A.AMOUNT > (
+  SELECT AVG(B.AMOUNT)
+  FROM DEPOSIT B
+  WHERE B.BNAME = A.BNAME
+);
+
+
+
+
+
+DELETE queries
+
+1
+
+
+DELETE FROM DEPOSIT
+WHERE BNAME IN (
+    SELECT B.BNAME
+    FROM BRANCH B
+    JOIN CUSTOMER C ON B.BNAME = C.BNAME
+    GROUP BY B.BNAME
+    HAVING COUNT(C.CNAME) BETWEEN 1 AND 3
+);
+
+
+2
+
+
+DELETE FROM BRANCH
+WHERE BNAME IN (
+    SELECT B.BNAME
+    FROM BRANCH B
+    JOIN DEPOSIT D ON B.BNAME = D.BNAME
+    GROUP BY B.BNAME
+    HAVING AVG(D.AMOUNT) < 5000
+);
+
+
+
+3.
+
+
+DELETE FROM BRANCH
+WHERE BNAME IN (
+    SELECT B.BNAME
+    FROM BRANCH B
+    JOIN BORROW L ON B.BNAME = L.BNAME
+    GROUP BY B.BNAME
+    HAVING MAX(L.AMOUNT) > 5000
+);
+
+
+DELETE FROM BRANCH
+WHERE BNAME IN (
+    SELECT B.BNAME
+    FROM BRANCH B
+    WHERE B.CITY = 'Nagpur'
+);
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE (CNAME = 'Anil' OR CNAME = 'Sunil')
+  AND BNAME = 'VIRAR';
+
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE (CNAME = 'Anil' OR CNAME = 'Sunil')
+  AND CITY = 'Nagpur';
+
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE CNAME IN ('Anil', 'Sunil')
+  AND CITY IN (
+    SELECT CITY
+    FROM CUSTOMER
+    WHERE CNAME IN ('Anil', 'Sunil')
+    GROUP BY CITY
+    HAVING COUNT(*) > 1
+);
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE CNAME IN ('Anil', 'Sunil')
+  AND AMOUNT < (
+    SELECT MIN(AMOUNT)
+    FROM DEPOSIT
+    WHERE CNAME = 'Vijay'
+);
+
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE CNAME = 'Vijay';
+
+
+DELETE FROM CUSTOMER
+WHERE CITY = 'Bombay';
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE CNAME = 'Ajay'
+  AND BNAME = 'VIRAR';
+
+
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE AMOUNT < 5000;
+
+
+
+
+
+DELETE FROM BORROW
+WHERE AMOUNT > 1000
+  AND BNAME = 'Karolbagh';
+
+
+
+
+
+
+DELETE FROM DEPOSIT
+WHERE BNAME = 'VRCE'
+  AND CITY = 'Bombay';
