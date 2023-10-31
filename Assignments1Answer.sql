@@ -126,7 +126,7 @@ WHERE DEPOSIT.CNAME = 'ANIL' AND CUSTOMER.CNAME = 'ANIL' AND BORROW.CNAME =  'AN
 ASUR PART 3
 *********************************
 
--- Give name of Customer having living city Mumbai and Branch city Nagpur
+-- Give name of Customer having living city Mumbai and Branch city NAGPUR
 
 SELECT CNAME , CUSTOMER.CITY AS CUSTOMER_CITY , BRANCH.CITY AS BRANCH_CITY 
 FROM CUSTOMER INNER JOIN DEPOSIT USING(CNAME) 
@@ -145,7 +145,7 @@ WHERE CUSTOMER.CITY=BRANCH.CITY
 
 
 
--- Give names of Customers who are borrowers as well as depositers and living city Nagpur
+-- Give names of Customers who are borrowers as well as depositers and living city NAGPUR
 
 SELECT CNAME , CUSTOMER.CITY AS CUSTOMER_CITY FROM DEPOSIT
 INNER JOIN BORROW USING(CNAME)
@@ -153,7 +153,7 @@ INNER JOIN CUSTOMER USING (CNAME)
 WHERE CUSTOMER.CITY ='NAGPUR';
 
 
--- Give names of Customers who are depositors and have the same branch city as that of Mr. Sunil
+-- Give names of Customers who are depositors and have the same branch city as that of Mr. SUNIL
 
 SELECT CNAME , BNAME, BRANCH.CITY  AS BRANCH_CITY FROM DEPOSIT 
 INNER JOIN BRANCH USING(BNAME) 
@@ -163,7 +163,7 @@ WHERE BRANCH.CITY = (SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL') ;
 SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL' ;
 
 
--- Give names of depositors having the same living city as that of Mr. Anil and having the deposit amount greater than 2000.
+-- Give names of depositors having the same living city as that of Mr. ANIL and having the deposit amount greater than 2000.
 
 SELECT CNAME , DEPOSIT.AMOUNT FROM DEPOSIT
 INNER JOIN BRANCH USING(BNAME) 
@@ -181,7 +181,7 @@ WHERE DEPOSIT.AMOUNT>1000 AND BORROW.AMOUNT>20000;
 
 
 
--- Give names of depositors having the same branch as the branch of Sunil
+-- Give names of depositors having the same branch as the branch of SUNIL
 
 SELECT CNAME FROM DEPOSIT 
 WHERE BNAME = (select BNAME from DEPOSIT where cname='SUNIL')
@@ -194,7 +194,7 @@ SELECT CNAME FROM BORROW
 WHERE AMOUNT > (SELECT AMOUNT FROM BORROW WHERE CNAME='PRAMOD') 
 
 
--- Give names of customers living in the City where branch of Depositer Sunil is located
+-- Give names of customers living in the City where branch of Depositer SUNIL is located
 --SUNIL KA BRANCH JIS CITY ME HAI US CITY ME JO BANDE HAIN USKA NAME CHAHIYE ;
 
 SELECT CNAME , CITY AS LIVING_CITY 
@@ -206,12 +206,12 @@ CITY = (SELECT CITY FROM BRANCH WHERE BRANCH.BNAME
 
 
 
--- Give loan number and loan amount of borrowers having the same branch as that of Sunil
+-- Give loan number and loan amount of borrowers having the same branch as that of SUNIL
 SELECT LOANNO , CNAME,AMOUNT FROM BORROW 
 WHERE BNAME= (SELECT BNAME FROM BORROW WHERE CNAME = 'SUNIL')
 AND CNAME <> 'SUNIL'
 
--- Give loan number, Loan Amount, Account number and deposit amount of customer having in city Nagpur
+-- Give loan number, Loan Amount, Account number and deposit amount of customer having in city NAGPUR
 
 
 SELECT ACTNO, LOANNO ,CNAME,BORROW.AMOUNT AS LOAN_AMOUNT,DEPOSIT.AMOUNT AS DEPOSIT_AMOUNT,CITY
@@ -260,7 +260,7 @@ AND CNAME <> 'PRAMOD'
 
 
 
---  Give names of depositors having the same branch city as that of Mr. Sunil and having the same living city as that of Mr. Anil
+--  Give names of depositors having the same branch city as that of Mr. SUNIL and having the same living city as that of Mr. ANIL
 SELECT 
  CNAME 
 FROM 
@@ -301,7 +301,7 @@ WHERE CNAME = 'PRAMOD'
 
 
 
---  Give branch city of Sunil and branch city of Anil
+--  Give branch city of SUNIL and branch city of ANIL
 
 SELECT CNAME, CITY AS BRANCH_CITY
 FROM
@@ -332,14 +332,14 @@ where borrow.loanno IS NULL;
 -- List all the customers who are both depositers and borrowers.
 select cname , actno , loanno from deposit inner join borrow using(cname);
 
--- List all the customers, along with their amount who are either borrowers or depositers and living city Nagpur
+-- List all the customers, along with their amount who are either borrowers or depositers and living city NAGPUR
 select cname , deposit.amount as deposit_amount , borrow.amount as borrow_amount FROM 
 DEPOSIT FULL JOIN BORROW USING (CNAME)
 FULL JOIN CUSTOMER USING(CNAME) 
 WHERE CITY = 'NAGPUR'
 
 
--- List all the depositers having deposit in all the branches where Sunil is having an account.
+-- List all the depositers having deposit in all the branches where SUNIL is having an account.
 SELECT CNAME FROM 
 DEPOSIT INNER JOIN BRANCH USING (BNAME)
 WHERE CITY = (SELECT CITY  FROM 
@@ -350,7 +350,7 @@ AND CNAME <> 'SUNIL'
 
 
 
--- List all the customers living in City Nagpur and having branch city Mumbai or Delhi
+-- List all the customers living in City NAGPUR and having branch city Mumbai or Delhi
 SELECT CNAME, CUSTOMER.CITY AS LIVING_CITY , BRANCH.CITY AS BRANCY_CITY FROM
 CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 INNER JOIN BRANCH USING(BNAME) 
@@ -358,7 +358,7 @@ WHERE BRANCH.CITY IN ('MUMBAI','DELHI')
 
 
 
--- List all the depositers living in city Nagpur
+-- List all the depositers living in city NAGPUR
 SELECT CNAME, CUSTOMER.CITY AS LIVING_CITY FROM
 CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 WHERE CITY ='NAGPUR'
@@ -366,7 +366,7 @@ WHERE CITY ='NAGPUR'
 
 
 
--- List all the depositers living in city Nagpur and having branch in city Mumbai
+-- List all the depositers living in city NAGPUR and having branch in city Mumbai
 SELECT CNAME, CUSTOMER.CITY AS LIVING_CITY , BRANCH.CITY AS BRANCY_CITY FROM
 CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 INNER JOIN BRANCH USING(BNAME)
@@ -374,7 +374,7 @@ WHERE CUSTOMER.CITY ='NAGPUR' AND BRANCH.CITY = 'MUMBAI'
 
 
 
--- List the branch city of Anil and Sunil
+-- List the branch city of ANIL and SUNIL
 SELECT CNAME FROM DEPOSIT INNER JOIN BORROW USING(CNAME)
  WHERE DEPOSIT.AMOUNT > 1000 AND BORROW.AMOUNT < 10000 
 
@@ -385,7 +385,7 @@ SELECT CNAME FROM DEPOSIT INNER JOIN BORROW USING(CNAME)
 
 
 
--- List the borrowers having branch city same as that of Mr. Sunil.
+-- List the borrowers having branch city same as that of Mr. SUNIL.
 SELECT CNAME, CITY AS BRANCH_CITY 
 FROM 
 BORROW INNER JOIN BRANCH USING(BNAME)
@@ -404,7 +404,7 @@ SELECT CNAME ,CITY AS LIVING_CITY ,BNAME FROM DEPOSIT
 INNER JOIN CUSTOMER USING (CNAME)
 WHERE BNAME = 'VRCE';
 
--- List the depositer having tha same living city as that of Mr. Sunil and the same branch city as that of mr. Sunil.
+-- List the depositer having tha same living city as that of Mr. SUNIL and the same branch city as that of mr. SUNIL.
 
 SELECT 
   CUSTOMER.CNAME ,
@@ -421,7 +421,7 @@ AND CUSTOMER.CNAME <> 'SUNIL' ;
 
 
 
--- List the depositors having amount less than 1000 and living in the same city as Mr. Anil
+-- List the depositors having amount less than 1000 and living in the same city as Mr. ANIL
 
 
 SELECT CNAME FROM DEPOSIT INNER JOIN CUSTOMER USING (CNAME) WHERE
@@ -430,7 +430,7 @@ AMOUNT < 1000  AND CITY =
 AND CNAME <> 'ANIL'
 
 
--- List all the customers who are both depositors and borrowers and living in the same city as Mr. Anil
+-- List all the customers who are both depositors and borrowers and living in the same city as Mr. ANIL
 
 
 
@@ -443,7 +443,7 @@ AND CNAME <> 'ANIL'
 
 
 
--- List all the cities where branches of Anil and Sunil are located
+-- List all the cities where branches of ANIL and SUNIL are located
 
 SELECT BRANCH.CITY FROM   
 DEPOSIT INNER JOIN BRANCH USING (BNAME)
@@ -454,7 +454,7 @@ BORROW.BNAME IN (SELECT BNAME FROM DEPOSIT WHERE CNAME IN ('ANIL','SUNIL'))
 
 
 
--- List all the customers name and amount for depositers living in the city where either Anil or Sunil is Living
+-- List all the customers name and amount for depositers living in the city where either ANIL or SUNIL is Living
 
 
 SELECT CNAME , AMOUNT FROM 
@@ -462,14 +462,14 @@ CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 WHERE CITY IN (SELECT CITY FROM CUSTOMER WHERE CNAME IN ('ANIL','SUNIL'))
 
 
--- List the amount for the depositers living in the city whete Anil is living
+-- List the amount for the depositers living in the city whete ANIL is living
 
 SELECT CNAME AS DEPOSITOR , AMOUNT FROM 
 CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 WHERE CITY IN (SELECT CITY FROM CUSTOMER WHERE CNAME ='ANIL')
 
 
--- List the cities which are either branch city of Anil or living city of Sunil
+-- List the cities which are either branch city of ANIL or living city of SUNIL
 
 
 
@@ -480,7 +480,7 @@ WHERE BRANCH.CITY =
 (SELECT CITY FROM BRANCH INNER JOIN DEPOSIT USING(BNAME) WHERE CNAME = 'ANIL')
 OR CUSTOMER.CITY = (SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL')
 
--- List the customers who are borrowers or depositers and having living city Nagpur and branch city as that of Mr. Sunil.
+-- List the customers who are borrowers or depositers and having living city NAGPUR and branch city as that of Mr. SUNIL.
 
 SELECT CNAME FROM BRANCH INNER JOIN DEPOSIT USING(BNAME)
 INNER JOIN BORROW USING(CNAME)
@@ -491,7 +491,7 @@ BRANCH.CITY = (SELECT CITY FROM BRANCH INNER JOIN DEPOSIT USING(BNAME) WHERE CNA
 
 
 
--- List the customers who are both borrowers and depositers and having the same branch city as that of Mr. Anil.
+-- List the customers who are both borrowers and depositers and having the same branch city as that of Mr. ANIL.
 
 SELECT CNAME 
 FROM 
@@ -513,7 +513,7 @@ select sum(amount) as total_loan from borrow ;
 -- 2. List total deposit
 select sum(amount) as total_deposit from deposit;
 
--- 3. List total loan taken from Karolbagh branch.
+-- 3. List total loan taken from KAROLBAGH branch.
 SELECT SUM(AMOUNT) AS TOTAL_LOAN 
 FROM 
 BORROW INNER JOIN BRANCH USING (BNAME)
@@ -527,7 +527,7 @@ DEPOSIT WHERE ADATE > DATE '1996-01-01'
 GROUP BY (CNAME,ADATE)
 
 
--- 5. List total deposit of customers living in city Nagpur
+-- 5. List total deposit of customers living in city NAGPUR
 SELECT 
 CNAME , CITY , 
 SUM(AMOUNT) AS TOTAL_DEPOSIT 
@@ -552,7 +552,7 @@ WHERE BRANCH.CITY = 'DELHI'
 GROUP BY BRANCH.CITY
 
 
--- 8. List total deposit of customers living in city where Sunil is living.
+-- 8. List total deposit of customers living in city where SUNIL is living.
 SELECT CITY , SUM(AMOUNT) FROM
 CUSTOMER INNER JOIN DEPOSIT USING (CNAME)
 WHERE CITY =(SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL')
@@ -600,7 +600,7 @@ GROUP BY C.CITY , D.BNAME , C.CNAME ;
 
 
 
--- 15. Give branchwise loan of customer living in Nagpur
+-- 15. Give branchwise loan of customer living in NAGPUR
 SELECT BNAME , SUM(AMOUNT)
 FROM 
 BORROW INNER JOIN BRANCH USING(BNAME)
@@ -677,7 +677,7 @@ SELECT MAX(AMOUNT) FROM DEPOSIT
 )
 
 
---  List the names of customers having maximum deposit living in Nagpur
+--  List the names of customers having maximum deposit living in NAGPUR
 
 SELECT CNAME FROM DEPOSIT INNER JOIN CUSTOMER USING (CNAME) 
 WHERE  CITY = 'NAGPUR' AND AMOUNT = (
@@ -697,7 +697,7 @@ FROM (
 
 
 
---  Count the number of depositors living in Nagpur
+--  Count the number of depositors living in NAGPUR
 SELECT COUNT(CNAME) AS NUMBER_OF_DEPOSITOR FROM 
 CUSTOMER INNER JOIN DEPOSIT USING(CNAME)
 WHERE CITY = 'NAGPUR'
@@ -723,7 +723,7 @@ SELECT MAX(AMOUNT) FROM DEPOSIT WHERE BNAME='ANDHERI'
 
 
 
---  Give names of customers having highest deposit in the branch where sunil is having deposit
+--  Give names of customers having highest deposit in the branch where SUNIL is having deposit
 
 SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
    SELECT MAX(AMOUNT) FROM DEPOSIT WHERE BNAME=(
@@ -733,7 +733,7 @@ SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
   AND CNAME <> 'SUNIL'
 
   
---  Give names of customers having highest deposit in the city where branch of Sunil is located
+--  Give names of customers having highest deposit in the city where branch of SUNIL is located
 
 SELECT CNAME FROM DEPOSIT WHERE AMOUNT = (
    SELECT MAX(AMOUNT) FROM DEPOSIT INNER JOIN BRANCH USING(BNAME) WHERE CITY=(
@@ -752,7 +752,7 @@ SELECT CNAME,BNAME,  AMOUNT , AVG_DEPOSIT FROM DEPOSIT INNER JOIN (
 WHERE AMOUNT > AVG_DEPOSIT 
 
 
---  Give names of customers having maximum deposit among deposits of Nagpur for branch VRCE.
+--  Give names of customers having maximum deposit among deposits of NAGPUR for branch VRCE.
 ***** SIR KO PUCHNA HAI
 
 --  Give name of branch where number of depositers is more than 5.
@@ -760,7 +760,7 @@ SELECT BNAME , COUNT(CNAME) FROM DEPOSIT
 GROUP BY BNAME HAVING COUNT(CNAME) > 5 ;
 
 
---  Give name of city having more customers living in than Nagpur
+--  Give name of city having more customers living in than NAGPUR
 SELECT CITY , COUNT(CITY) FROM CUSTOMER 
 GROUP BY CITY HAVING COUNT(CITY) > (
 SELECT COUNT(CITY) FROM CUSTOMER 
@@ -828,21 +828,21 @@ SET AMOUNT = AMOUNT * 1.10;
 
 
 -- 2. Give 10% interest to all depositers having branch VRCE
--- 3. Give 10% interest to all depositers living in Nagpur
--- 4. Give 10% interest to all depositers living in Nagpur and having branch in city Mumbai
--- 5. Add hundred rupees to the deposit of Anil and assign it to Sunil.
+-- 3. Give 10% interest to all depositers living in NAGPUR
+-- 4. Give 10% interest to all depositers living in NAGPUR and having branch in city Mumbai
+-- 5. Add hundred rupees to the deposit of ANIL and assign it to SUNIL.
 -- 6. Change the deposit of VRCE branch to 1000 and change the branch as VRCE-Ambazari
--- 7. Assign to the deposit of Anil the maximum deposit from VRCE branch
--- 8. Change the living city of VRCE branch Borrowers to Nagpur.
--- 9. Update deposit of Anil, give him maximum deposit from depositors in living city Nagpur
--- 10. Deposit the sum of the deposits of Sunil and Vijay in the account of Anil.
--- 11. Transfer Rs. 500 from the account of Anil to the account of Sunil
--- 12. Transfer Rs. 500 from the account of Anil to the account of Sunil if both are having the same
+-- 7. Assign to the deposit of ANIL the maximum deposit from VRCE branch
+-- 8. Change the living city of VRCE branch Borrowers to NAGPUR.
+-- 9. Update deposit of ANIL, give him maximum deposit from depositors in living city NAGPUR
+-- 10. Deposit the sum of the deposits of SUNIL and VIJAY in the account of ANIL.
+-- 11. Transfer Rs. 500 from the account of ANIL to the account of SUNIL
+-- 12. Transfer Rs. 500 from the account of ANIL to the account of SUNIL if both are having the same
 -- branch.
--- 13. Transfer Rs. 10 from the account of Anil to the account of Sunil if both are living in Nagpur.
--- 14. Transfer Rs. 10 from the account of Anil to the account of Sunil if they are living in the same
+-- 13. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if both are living in NAGPUR.
+-- 14. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if they are living in the same
 -- city.
--- 15. Transfer Rs. 10 from the account of Anil to the account of Sunil if they are having the same
+-- 15. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if they are having the same
 -- branches.
 -- 16. Add Rs. 1000 to the account of all those depositers who are having the highest deposit amount
 -- in their respective branches.
@@ -857,17 +857,17 @@ SET AMOUNT = AMOUNT * 1.10;
 -- 1. Delete depositers of branches having the number of customer between 1 and 3
 -- 2. Delete branches having average deposit less than 5000
 -- 3. Delete the branches having maximum loan more than 5000
--- 4. Delete branches of having deposit from Nagpur
--- 5. Delete deposit of Anil and Sunil if both are having branch VIRAR
--- 6. Delete deposit of Anil and Sunil if both are having living city Nagpur
--- 7. Delete deposit of Anil and Sunil if both are having same living city
--- 8. Delete deposit of Anil and Sunil if both are having less deposit than Vijay
--- 9. Delete deposit of vijay
--- 10. Delete customer from Bombay City
--- 11. Delete depositer if the branch is VIRAR and depositer name is Ajay
+-- 4. Delete branches of having deposit from NAGPUR
+-- 5. Delete deposit of ANIL and SUNIL if both are having branch VIRAR
+-- 6. Delete deposit of ANIL and SUNIL if both are having living city NAGPUR
+-- 7. Delete deposit of ANIL and SUNIL if both are having same living city
+-- 8. Delete deposit of ANIL and SUNIL if both are having less deposit than VIJAY
+-- 9. Delete deposit of VIJAY
+-- 10. Delete customer from BOMBAY City
+-- 11. Delete depositer if the branch is VIRAR and depositer name is AJAY
 -- 12. Delete depositer having deposit less than 5000
--- 13. Delete borrower having loan more than 1000 and branch Karolbagh
--- 14. Delete the names of those depositers of VRCE branch who live in city Bombay
+-- 13. Delete borrower having loan more than 1000 and branch KAROLBAGH
+-- 14. Delete the names of those depositers of VRCE branch who live in city BOMBAY
 
 
 
@@ -915,9 +915,9 @@ UPDATE DEPOSIT
 SET AMOUNT = AMOUNT + (
   SELECT SUM(AMOUNT)
   FROM DEPOSIT
-  WHERE CNAME IN ('Sunil', 'Vijay')
+  WHERE CNAME IN ('SUNIL', 'VIJAY')
 )
-WHERE CNAME = 'Anil';
+WHERE CNAME = 'ANIL';
 
 
 
@@ -925,11 +925,11 @@ WHERE CNAME = 'Anil';
 11.
 UPDATE DEPOSIT
 SET AMOUNT = AMOUNT - 500
-WHERE CNAME = 'Anil';
+WHERE CNAME = 'ANIL';
 
 UPDATE DEPOSIT
 SET AMOUNT = AMOUNT + 500
-WHERE CNAME = 'Sunil';
+WHERE CNAME = 'SUNIL';
 
 
 
@@ -940,11 +940,11 @@ WHERE CNAME = 'Sunil';
 
 UPDATE DEPOSIT A
 SET A.AMOUNT = A.AMOUNT - 500
-WHERE A.CNAME = 'Anil'
+WHERE A.CNAME = 'ANIL'
   AND EXISTS (
     SELECT 1
     FROM DEPOSIT B
-    WHERE B.CNAME = 'Sunil'
+    WHERE B.CNAME = 'SUNIL'
       AND B.BNAME = A.BNAME
 );
 
@@ -953,12 +953,12 @@ WHERE A.CNAME = 'Anil'
 
 UPDATE DEPOSIT A
 SET A.AMOUNT = A.AMOUNT - 10
-WHERE A.CNAME = 'Anil'
+WHERE A.CNAME = 'ANIL'
   AND EXISTS (
     SELECT 1
     FROM CUSTOMER C
-    WHERE C.CNAME = 'Sunil'
-      AND C.CITY = 'Nagpur'
+    WHERE C.CNAME = 'SUNIL'
+      AND C.CITY = 'NAGPUR'
 );
 
 
@@ -969,13 +969,14 @@ WHERE A.CNAME = 'Anil'
 
 UPDATE DEPOSIT A
 SET A.AMOUNT = A.AMOUNT - 10
-WHERE A.CNAME = 'Anil'
+WHERE A.CNAME = 'ANIL'
   AND EXISTS (
     SELECT 1
     FROM CUSTOMER C
-    WHERE C.CNAME = 'Sunil'
+    WHERE C.CNAME = 'SUNIL'
       AND C.CITY = A.CITY
-);
+)
+AND A.AMOUNT >= 10
 
 
 15.
@@ -985,11 +986,11 @@ WHERE A.CNAME = 'Anil'
 
 UPDATE DEPOSIT A
 SET A.AMOUNT = A.AMOUNT - 10
-WHERE A.CNAME = 'Anil'
+WHERE A.CNAME = 'ANIL'
   AND EXISTS (
     SELECT 1
     FROM DEPOSIT B
-    WHERE B.CNAME = 'Sunil'
+    WHERE B.CNAME = 'SUNIL'
       AND B.BNAME = A.BNAME
 );
 
@@ -1100,14 +1101,14 @@ DELETE FROM BRANCH
 WHERE BNAME IN (
     SELECT B.BNAME
     FROM BRANCH B
-    WHERE B.CITY = 'Nagpur'
+    WHERE B.CITY = 'NAGPUR'
 );
 
 
 
 
 DELETE FROM DEPOSIT
-WHERE (CNAME = 'Anil' OR CNAME = 'Sunil')
+WHERE (CNAME = 'ANIL' OR CNAME = 'SUNIL')
   AND BNAME = 'VIRAR';
 
 
@@ -1115,19 +1116,19 @@ WHERE (CNAME = 'Anil' OR CNAME = 'Sunil')
 
 
 DELETE FROM DEPOSIT
-WHERE (CNAME = 'Anil' OR CNAME = 'Sunil')
-  AND CITY = 'Nagpur';
+WHERE (CNAME = 'ANIL' OR CNAME = 'SUNIL')
+  AND CITY = 'NAGPUR';
 
 
 
 
 
 DELETE FROM DEPOSIT
-WHERE CNAME IN ('Anil', 'Sunil')
+WHERE CNAME IN ('ANIL', 'SUNIL')
   AND CITY IN (
     SELECT CITY
     FROM CUSTOMER
-    WHERE CNAME IN ('Anil', 'Sunil')
+    WHERE CNAME IN ('ANIL', 'SUNIL')
     GROUP BY CITY
     HAVING COUNT(*) > 1
 );
@@ -1136,11 +1137,11 @@ WHERE CNAME IN ('Anil', 'Sunil')
 
 
 DELETE FROM DEPOSIT
-WHERE CNAME IN ('Anil', 'Sunil')
+WHERE CNAME IN ('ANIL', 'SUNIL')
   AND AMOUNT < (
     SELECT MIN(AMOUNT)
     FROM DEPOSIT
-    WHERE CNAME = 'Vijay'
+    WHERE CNAME = 'VIJAY'
 );
 
 
@@ -1148,17 +1149,17 @@ WHERE CNAME IN ('Anil', 'Sunil')
 
 
 DELETE FROM DEPOSIT
-WHERE CNAME = 'Vijay';
+WHERE CNAME = 'VIJAY';
 
 
 DELETE FROM CUSTOMER
-WHERE CITY = 'Bombay';
+WHERE CITY = 'BOMBAY';
 
 
 
 
 DELETE FROM DEPOSIT
-WHERE CNAME = 'Ajay'
+WHERE CNAME = 'AJAY'
   AND BNAME = 'VIRAR';
 
 
@@ -1175,7 +1176,7 @@ WHERE AMOUNT < 5000;
 
 DELETE FROM BORROW
 WHERE AMOUNT > 1000
-  AND BNAME = 'Karolbagh';
+  AND BNAME = 'KAROLBAGH';
 
 
 
@@ -1184,4 +1185,4 @@ WHERE AMOUNT > 1000
 
 DELETE FROM DEPOSIT
 WHERE BNAME = 'VRCE'
-  AND CITY = 'Bombay';
+  AND CITY = 'BOMBAY';
