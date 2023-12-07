@@ -36,7 +36,7 @@ INTO DEPOSIT VALUES ('102','MEHUL','KAROLBAGH','3500', '11-17-1995')
 INTO DEPOSIT VALUES ('103','MADHURI','MG ROAD','1200', '12-17-1995')
 INTO DEPOSIT VALUES ('104','PRAMOD','ANDHERI','3000', '03-31-1996')
 INTO DEPOSIT VALUES ('105','SANDIP','VIRAR','2000', '09-05-1995')
-INTO DEPOSIT VALUES ('106','SHIVANI','NEHRU PALACE','1000', '06-02-1995')=
+INTO DEPOSIT VALUES ('106','SHIVANI','NEHRU PALACE','1000', '06-02-1995')
 INTO DEPOSIT VALUES ('107','KRANTI','POWAI','5000', '08-10-1995')
 INTO DEPOSIT VALUES ('108','SHALINI','VRCE','7000', '10-28-1996')
 INTO DEPOSIT VALUES ('109','SANJANA','ANDHERI','4000', '04-04-1996')
@@ -820,6 +820,7 @@ WHERE CITY IN(
 
 -- Assignment No. - 7
 -- The Update statement
+
 -- 1. Give 10% interest to all depositers
   
   
@@ -828,34 +829,163 @@ SET AMOUNT = AMOUNT * 1.10;
 
 
 -- 2. Give 10% interest to all depositers having branch VRCE
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT * 1.10 WHERE BNAME = 'VRCE'
+
 -- 3. Give 10% interest to all depositers living in NAGPUR
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT * 1.10 WHERE CNAME IN (SELECT CNAME FROM CUSTOMER WHERE CITY='NAGPUR')
+
+
+
 -- 4. Give 10% interest to all depositers living in NAGPUR and having branch in city Mumbai
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT * 1.10 
+WHERE CNAME IN (
+  SELECT CNAME FROM CUSTOMER INNER JOIN DEPOSIT USING(CNAME) 
+  INNER JOIN BRANCH USING (BNAME)  WHERE CUSTOMER.CITY='NAGPUR' AND BRANCH.CITY = 'MUMBAI'
+)
+
+
 -- 5. Add hundred rupees to the deposit of ANIL and assign it to SUNIL.
+
+UPDATE DEPOSIT SET AMOUNT = (SELECT AMOUNT + 100 FROM DEPOSIT WHERE CNAME = 'ANIL')
+WHERE CNAME = 'SUNIL'
+
+
+
 -- 6. Change the deposit of VRCE branch to 1000 and change the branch as VRCE-Ambazari
+- note : you need to run below queries seperately.
+
+UPDATE DEPOSIT SET AMOUNT = 1000 , BNAME = 'VRCE-Ambazari' where BNAME = 'VRCE' ;
+UPDATE BRANCH SET BNAME = 'VRCE-Ambazari' where BNAME = 'VRCE' ;
+
+
+
 -- 7. Assign to the deposit of ANIL the maximum deposit from VRCE branch
+
+UPDATE DEPOSIT SET AMOUNT = (SELECT MAX(AMOUNT) FROM DEPOSIT WHERE BNAME = 'VRCE-Ambazari') 
+WHERE CNAME = 'ANIL'
+
+
 -- 8. Change the living city of VRCE branch Borrowers to NAGPUR.
+
+UPDATE CUSTOMER SET CITY = 'NAGPUR' WHERE CNAME IN (SELECT CNAME FROM DEPOSIT WHERE BNAME = 'VRCE')
+
+
+
 -- 9. Update deposit of ANIL, give him maximum deposit from depositors in living city NAGPUR
+
+UPDATE DEPOSIT SET AMOUNT  =  (SELECT MAX(AMOUNT) FROM DEPOSIT INNER JOIN CUSTOMER USING (CNAME) WHERE CITY = 'NAGPUR')
+WHERE CNAME = 'ANIL'
+
 -- 10. Deposit the sum of the deposits of SUNIL and VIJAY in the account of ANIL.
+UPDATE DEPOSIT SET AMOUNT  =  (SELECT SUM(AMOUNT) FROM DEPOSIT WHERE CNAME IN ('SUNIL', 'VIJAY'))
+WHERE CNAME = 'ANIL'
+
 -- 11. Transfer Rs. 500 from the account of ANIL to the account of SUNIL
--- 12. Transfer Rs. 500 from the account of ANIL to the account of SUNIL if both are having the same
--- branch.
+- note : you need to run below queries seperately.
+
+UPDATE DEPOSIT SET AMOUNT  = AMOUNT - 500 WHERE CNAME  = 'ANIL' ;
+UPDATE DEPOSIT SET AMOUNT  = AMOUNT + 500 WHERE CNAME  = 'SUNIL' ;
+
+
+
+-- 12. Transfer Rs. 500 from the account of ANIL to the account of SUNIL if both are having the same branch.
+
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT - 500 
+WHERE EXISTS (SELECT 1 FROM DEPOSIT B INNER JOIN 
+  (
+     SELECT BNAME FROM DEPOSIT A 
+      WHERE CNAME = 'ANIL'
+   ) USING(BNAME) WHERE B.CNAME = 'SUNIL'
+) ;
+
+--!!!!!!!! IF ABOVE query results 'n row(s) updated' then only run below query 
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 500 WHERE CNAME = 'SUNIL' ;
+
+
 -- 13. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if both are living in NAGPUR.
+UPDATE DEPOSIT SET AMOUNT = AMOUNT - 10 WHERE CNAME = 'ANIL'  AND 
+EXISTS(
+select CITY from customer 
+INNER JOIN (SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL') TEMP USING (CITY) 
+where city = 'NAGPUR' AND CNAME = 'ANIL'
+) ;
+
+-- RUN BELOW QUERY ONLY IF ABOVE QUERY UPDATES  AT LEAST ONE ROW
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 10 
+
+
 -- 14. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if they are living in the same
 -- city.
+UPDATE DEPOSIT SET AMOUNT = AMOUNT - 10 WHERE CNAME = 'ANIL'  AND 
+EXISTS(
+select CITY from customer 
+INNER JOIN (SELECT CITY FROM CUSTOMER WHERE CNAME = 'SUNIL') TEMP USING (CITY) 
+where CNAME = 'ANIL'
+) ;
+
+-- RUN BELOW QUERY ONLY IF ABOVE QUERY UPDATES  AT LEAST ONE ROW
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 10 
+
 -- 15. Transfer Rs. 10 from the account of ANIL to the account of SUNIL if they are having the same
 -- branches.
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT - 10 WHERE CNAME = 'ANIL'  AND 
+EXISTS(
+select BNAME from DEPOSIT
+INNER JOIN (SELECT BNAME FROM DEPOSIT WHERE CNAME = 'SUNIL') TEMP USING (BNAME) 
+where CNAME = 'ANIL'
+) ;
+
+-- RUN BELOW QUERY ONLY IF ABOVE QUERY UPDATES  AT LEAST ONE ROW
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 10 
+
+
 -- 16. Add Rs. 1000 to the account of all those depositers who are having the highest deposit amount
 -- in their respective branches.
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 1000 WHERE CNAME IN(
+  SELECT CNAME MAX_AMOUNT FROM DEPOSIT INNER JOIN (
+  SELECT BNAME , MAX(AMOUNT) AS MAX_AMOUNT FROM DEPOSIT GROUP BY BNAME
+  ) TEMP ON DEPOSIT.BNAME=TEMP.BNAME AND DEPOSIT.AMOUNT = TEMP.MAX_AMOUNT
+)
+
 -- 17. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit.
+
+
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 100 WHERE CNAME IN (
+SELECT CNAME FROM DEPOSIT WHERE AMOUNT > (
+   SELECT AVG(AMOUNT) AS AVG_DEPOSIT FROM DEPOSIT 
+   )
+)
+
 -- 18. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit of
 -- their branch
+-- steps
+UPDATE DEPOSIT SET AMOUNT = AMOUNT + 100 WHERE CNAME IN 
+(SELECT CNAME FROM DEPOSIT INNER JOIN (
+    SELECT BNAME, AVG(AMOUNT) AS AVG FROM DEPOSIT GROUP BY BNAME 
+  ) TEMP USING (BNAME) WHERE AMOUNT > AVG 
+)
+
 -- 19. Add Rs. 100 to the amount of all customers living in the city where their branch is located
 -- 20. Add Rs. 100 to the amount of all depositers having deposit higher than the average deposit of
 -- their branch.
 -- Assignment No. - 8
 -- The Delete Statement
 -- 1. Delete depositers of branches having the number of customer between 1 and 3
+DELETE FROM DEPOSIT WHERE CNAME IN(
+ SELECT CNAME FROM DEPOSIT WHERE BNAME IN(
+  SELECT BNAME FROM DEPOSIT GROUP BY BNAME HAVING COUNT(CNAME) BETWEEN 1 AND 3
+ )
+)
+
 -- 2. Delete branches having average deposit less than 5000
+
 -- 3. Delete the branches having maximum loan more than 5000
 -- 4. Delete branches of having deposit from NAGPUR
 -- 5. Delete deposit of ANIL and SUNIL if both are having branch VIRAR
